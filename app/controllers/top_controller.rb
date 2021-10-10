@@ -8,8 +8,10 @@ class TopController < ApplicationController
     end
     
     def login 
-        if params[:uid] == 'kindai' and params[:pass] == 'sanriko'
-            session[:login_uid] = params[:uid]
+        pass = BCrypt::Password.create("sanriko")
+        if BCrypt::Password.new(pass) == params[:pass]
+            p "logged in!"
+             session[:login_uid] = params[:uid]
             redirect_to root_path
         else
             render'login_failed'
